@@ -9,22 +9,13 @@ import java.util.Map.Entry;
 public class Word2VEC {
 	private static boolean getVec = false;
 	private static boolean global = false;
-//	private static String globalTrainFilePath = "InputFiles/wiki.enLemmatize.4.text";
-//	private static String globalModelFilePath = "InputFiles/javaSkip300Test7G";
-//	private static String globalPlusFilePath = "InputFiles/javaSkip300Plus7G";
-//	private static String globalTreeFilePath = "InputFiles/javaSkip300Tree7G";
-//
-//	private static String incrementalAddFilePath = "InputFiles/xh-added-5G.txt";
-//	private static String incrementalModelFilePath = "InputFiles/javaSkip300Test2G+5G";
-//	private static String incrementalPlusFilePath = "InputFiles/javaSkip300Plus2G+5G";
-//	private static String incrementalTreeFilePath = "InputFiles/javaSkip300Tree2G+5G";
 	public static void main(String[] args) throws IOException {
 		if(args.length >= 1){
 			global = Boolean.valueOf(args[0]);
 		}
 		long start = 0;
 		Learn learn;
-		String[] strs = {"台风", "地震", "战争", "谋杀", "霾", "疫情", "受贿", "习近平", "火灾", "紧急状态"};
+		String[] strs = {"man", "woman", "war", "murder", "fog", "disease", "bribe", "obama", "fire", "issue"};
 		try {
 			if(global) {
 				start = System.currentTimeMillis();
@@ -50,34 +41,6 @@ public class Word2VEC {
 		}catch (Exception e) {
 			e.printStackTrace();
 		}
-//		System.out.println(vec.analogy("男子", "女子", "男孩子"));
-//		System.out.println("山西" + "\t" +
-//		Arrays.toString(vec.getWordVector("山西")));
-		// ;
-		// System.out.println("毛泽东" + "\t" +
-		// Arrays.toString(vec.getWordVector("毛泽东")));
-		// ;
-		// System.out.println("足球" + "\t" +
-		// Arrays.toString(vec.getWordVector("足球")));
-
-		// Word2VEC vec2 = new Word2VEC();
-		// vec2.loadGoogleModel("InputFiles/vectors.bin") ;
-		//
-		//
-//		String str = "拘留";
-//		long start = System.currentTimeMillis();
-//		//22779
-//		for (int i = 0; i < 100; i++) {vec.distance(str);
-//			//System.out.println(vec.distance(str));
-//		}
-//		System.out.println(System.currentTimeMillis() - start);
-
-		// System.out.println(vec2.distance(str));
-		//
-		//
-		// //男人 国王 女人
-		// System.out.println(vec.analogy("邓小平", "毛泽东思想", "毛泽东"));
-		// System.out.println(vec2.analogy("毛泽东", "毛泽东思想", "邓小平"));
 	}
 
 	private HashMap<String, float[]> wordMap = new HashMap<String, float[]>();
@@ -87,10 +50,7 @@ public class Word2VEC {
 	private int topNSize = 30;
 
 	/**
-	 * 测试模型
-	 *
 	 * @param path
-	 *            模型的路径
 	 * @throws java.io.IOException
 	 */
 	public static void testVec(String path,boolean getVec,String[] strs) throws IOException {
@@ -113,10 +73,7 @@ public class Word2VEC {
 	}
 
 	/**
-	 * 加载模型
-	 * 
 	 * @param path
-	 *            模型的路径
 	 * @throws java.io.IOException
 	 */
 	public void loadGoogleModel(String path) throws IOException {
@@ -158,10 +115,7 @@ public class Word2VEC {
 	}
 
 	/**
-	 * 加载模型
-	 * 
 	 * @param path
-	 *            模型的路径
 	 * @throws java.io.IOException
 	 */
 	public void loadJavaModel(String path) throws IOException {
@@ -184,7 +138,7 @@ public class Word2VEC {
 				}
 
 				len = Math.sqrt(len);
-				//归一化
+				//Normalized
 				for (int j = 0; j < size; j++) {
 					value[j] /= len;
 				}
@@ -197,8 +151,8 @@ public class Word2VEC {
 	private static final int MAX_SIZE = 50;
 
 	/**
-	 * 近义词
-	 * 
+	 * simliar word
+	 *
 	 * @return
 	 */
 	public TreeSet<WordEntry> analogy(String word0, String word1, String word2) {
@@ -359,7 +313,7 @@ public class Word2VEC {
 	}
 
 	/**
-	 * 得到词向量
+	 * get word vector
 	 * 
 	 * @param word
 	 * @return
@@ -375,7 +329,7 @@ public class Word2VEC {
 	}
 
 	/**
-	 * 读取一个float
+	 * read a float
 	 * 
 	 * @param b
 	 * @return
@@ -390,7 +344,7 @@ public class Word2VEC {
 	}
 
 	/**
-	 * 读取一个字符串
+	 * read a string
 	 * 
 	 * @param dis
 	 * @return

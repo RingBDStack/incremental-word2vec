@@ -8,7 +8,7 @@ import java.util.Collection;
 import java.util.TreeSet;
 
 /**
- * 构建Haffman编码树
+ * Construct Haffman Tree
  * @author ansj
  *
  */

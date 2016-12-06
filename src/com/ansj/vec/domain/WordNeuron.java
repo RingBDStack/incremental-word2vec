@@ -10,7 +10,7 @@ import java.util.Random;
 public class WordNeuron extends Neuron {
     public String name;
     public double[] syn0 = null; //input->hidden
-    public List<Neuron> neurons = null;//路径神经元
+    public List<Neuron> neurons = null;//neurons on path
     public int[] codeArr = null;
     public List<Neuron> oldNeurons = null;
     public int lowestPublicNode = -1;
@@ -21,10 +21,8 @@ public class WordNeuron extends Neuron {
         }
         Neuron neuron = this;
         neurons = new LinkedList<>();
-//        splitSyn0 = new LinkedList<>();
         while ((neuron = neuron.parent) != null) {
             neurons.add(neuron);
-//            splitSyn0.add(new double[layerSize]);
         }
         Collections.reverse(neurons);
         codeArr = new int[neurons.size()];
@@ -43,10 +41,8 @@ public class WordNeuron extends Neuron {
         }
         Neuron neuron = this;
         neurons = new LinkedList<>();
-//        splitSyn0 = new LinkedList<>();
         while ((neuron = neuron.parent) != null) {
             neurons.add(neuron);
-//            splitSyn0.add(new double[layerSize]);
         }
         Collections.reverse(neurons);
         codeArr = new int[neurons.size()];
@@ -88,7 +84,6 @@ public class WordNeuron extends Neuron {
 
         for(int i = 0;i < codeArr.length;++i){
             if(root instanceof WordNeuron) {
-//                System.out.println(((WordNeuron) root).name);
                 break;
             }
             if(flag && i < inputCodeArr.length && inputCodeArr[i] == codeArr[i])
@@ -118,22 +113,10 @@ public class WordNeuron extends Neuron {
         }
         for(int i = 0;i < inputNeurons.size();++i){
             Neuron x = inputNeurons.get(i);
-//            if(lowestPublicNode < i && i == 30)len++;
             if(!x.cengAlter){
-//                if(i==29)len++;
                 x.cengAlter = true;
             }
         }
-//        for(int i = 0;i < codeArr.length;++i){
-//            System.out.print(codeArr[i]);
-//        }
-//        System.out.println("->");
-//        for(int i = 0;i < inputCodeArr.length;++i){
-//            System.out.print(inputCodeArr[i]);
-//        }
-//        System.out.println();
-//        System.out.println(codeArr.length + "->" + oldNeurons.size() + "with " + lowestPublicNode);
-//        len = Math.min(neurons.size(),inputNeurons.size());
         neurons = inputNeurons;
         codeArr = inputCodeArr;
         return cnt;

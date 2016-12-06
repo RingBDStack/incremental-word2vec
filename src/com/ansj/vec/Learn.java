@@ -17,12 +17,12 @@ public class Learn {
 
     private Map<String, Neuron> wordMap = new HashMap<>();
     /**
-     * 训练多少个特征
+     * Training feature number
      */
     private int layerSize = 50;
 
     /**
-     * 上下文窗口大小
+     * Context window size
      */
     private int window = 5;
 
@@ -363,7 +363,7 @@ public class Learn {
     }
 
     /**
-     * skip gram 模型训练
+     * skip gram model training
      * @param sentence
      */
     private void skipGram(int index, List<WordNeuron> sentence, int b) {
@@ -423,7 +423,7 @@ public class Learn {
     }
 
     /**
-     * 词袋模型
+     * Bag of words Model
      * @param index
      * @param sentence
      * @param b
@@ -433,8 +433,8 @@ public class Learn {
         int a, c = 0;
 
         List<Neuron> neurons = word.neurons;
-        double[] neu1e = new double[layerSize];//误差项
-        double[] neu1 = new double[layerSize];//误差项
+        double[] neu1e = new double[layerSize];//Error term
+        double[] neu1 = new double[layerSize];//Error term
         WordNeuron last_word;
 
         for (a = b; a < window * 2 + 1 - b; a++)
@@ -560,7 +560,7 @@ public class Learn {
 
         List<Neuron> neurons = word.neurons;
         List<Neuron> oldNeurons = word.oldNeurons;
-        double[] neu1 = new double[layerSize];//误差项
+        double[] neu1 = new double[layerSize];//Error term
         WordNeuron last_word;
 
         for (a = b; a < window * 2 + 1 - b; a++)
@@ -610,7 +610,7 @@ public class Learn {
     }
 
     /**
-     * 统计词频
+     * Count frequency
      * @param file
      * @throws java.io.IOException
      */
@@ -634,7 +634,7 @@ public class Learn {
     }
 
     /**
-     * 添加词频
+     * Adjust word frequency
      * @param file
      * @throws java.io.IOException
      */
@@ -669,7 +669,7 @@ public class Learn {
     }
 
     /**
-     * 统计词频 & 预置词向量
+     * Count frequency & Preset word vector
      * @param modelFile
      * @throws java.io.IOException
      */
@@ -690,7 +690,7 @@ public class Learn {
     }
 
     /**
-     * 统计词频 & 重置词向量
+     * Count frequency & Reset word vector
      * @param modelFile
      * @throws java.io.IOException
      */
@@ -724,7 +724,7 @@ public class Learn {
     }
 
     /**
-     * 根据文件学习
+     * Learn by file
      * @param file
      * @throws java.io.IOException
      */
@@ -733,7 +733,7 @@ public class Learn {
         long start = System.currentTimeMillis();
         new Haffman(layerSize).make(wordMap.values());
 
-        //查找每个神经元
+        //Find each neuron
         for (Neuron neuron : wordMap.values()) {
             ((WordNeuron)neuron).makeNeurons(layerSize) ;
         }
@@ -742,7 +742,7 @@ public class Learn {
     }
 
     /**
-     * 根据file建树,用file&fileAdded学习
+     * Build the tree by file,learn by file & fileAdded
      * @param file
      * @throws java.io.IOException
      */
@@ -760,24 +760,24 @@ public class Learn {
     }
 
     /**
-     * 根据文件增量学习
+     * learn by file & fileAdded
      * @param file,fileAdded,treeFile,leaveFile
      * @throws java.io.IOException
      */
     public void learnFile_Incrementally(File file, File fileAdded, File treeFile, File modelFile) throws IOException {
-        //还原词向量 & 二叉树
+        //Restore Word Vectors & Binary Trees
         readVocabFromModelPlus(modelFile);
         new Haffman(layerSize).make(wordMap.values(),treeFile);
-        //查找每个神经元
+        //Find each neuron
         for (Neuron neuron : wordMap.values()) {
             ((WordNeuron)neuron).makeNeurons2(layerSize);
         }
 
         long cnt = 0;
-        //增量构造二叉树
+        //Increment Constructs a binary tree
         addVocab(fileAdded);
         Neuron root = new Haffman(layerSize).makeWithRoot(wordMap.values());
-        //比对每个神经元
+        //Compared each neuron
         for (Neuron neuron : wordMap.values()) {
             cnt += ((WordNeuron)neuron).inheritNeurons(layerSize,root) ;
         }
@@ -788,19 +788,19 @@ public class Learn {
     }
 
     public void learnFile_Incrementally_Count(File file,File fileAdded,File treeFile,File modelFile) throws IOException {
-        //还原词向量 & 二叉树
+        //Restore Word Vectors & Binary Trees
         readVocabFromModelPlus(modelFile);
         new Haffman(layerSize).make(wordMap.values(),treeFile);
-        //查找每个神经元
+        //Find each neuron
         for (Neuron neuron : wordMap.values()) {
             ((WordNeuron)neuron).makeNeurons(layerSize) ;
         }
 
         int cnt = 0,cnt2 = 0;
-        //增量构造二叉树
+        //Increment Constructs a binary tree
         addVocab(fileAdded);
         Neuron root = new Haffman(layerSize).makeWithRoot(wordMap.values());
-        //比对每个神经元
+        //Compared each neuron
         for (Neuron neuron : wordMap.values()) {
             cnt2 += ((WordNeuron)neuron).inheritNeuronsCount(layerSize,root) ;
 //            cnt += ((WordNeuron)neuron).inheritNeurons(layerSize,root) ;
@@ -812,17 +812,17 @@ public class Learn {
 //            if(neuron.alter)
 //                cnt2++;
 //        }
-        System.out.println("变长节点: "+cnt + "/" + wordMap.size() + "=" + ((double) cnt / wordMap.size()));
-        System.out.println("变短节点: "+cnt2 + "/" + wordMap.size() + "=" + ((double) cnt2 / wordMap.size()));
-//        __out.write("非叶子节点: " + cnt + "/" + wordMap.size() + "=" + ((double) cnt / wordMap.size()) + "\r\n");
-//        __out.write("叶子节点: "+cnt2 + "/" + wordMap.size() + "=" + ((double) cnt2 / wordMap.size()) +"\r\n");
+        System.out.println("Longer nodes: "+cnt + "/" + wordMap.size() + "=" + ((double) cnt / wordMap.size()));
+        System.out.println("Shorter nodes: "+cnt2 + "/" + wordMap.size() + "=" + ((double) cnt2 / wordMap.size()));
+//        __out.write("Non-leaf nodes: " + cnt + "/" + wordMap.size() + "=" + ((double) cnt / wordMap.size()) + "\r\n");
+//        __out.write("Leaf nodes: "+cnt2 + "/" + wordMap.size() + "=" + ((double) cnt2 / wordMap.size()) +"\r\n");
 //        __out.write(((double) cnt / wordMap.size()) + " " + ((double) cnt2 / wordMap.size()) + " ");
 //        System.out.print(((double) cnt / wordMap.size()) + " " + ((double) cnt2 / wordMap.size()) + " ");
 //        System.exit(-1);
     }
 
     /**
-     * 保存模型
+     * Save model
      */
     public void saveModel(File file) {
         // TODO Auto-generated method stub
@@ -845,7 +845,7 @@ public class Learn {
         }
     }
     /**
-     * 保存模型+词频
+     * Save model & word frequency
      */
     public void saveModelPlus(File file) {
         // TODO Auto-generated method stub
@@ -870,7 +870,7 @@ public class Learn {
         }
     }
     /*
-    保存二叉树非叶子节点
+    Save the binary tree non-leaf nodes
      */
     public void saveTreeNodes(File file) {
         // TODO Auto-generated method stub
@@ -886,7 +886,7 @@ public class Learn {
         }
     }
     /*
-    保存叶子节点,useless
+    Save the binary tree leaf nodes , which is useless
      */
     public void saveLeaveNodes(File file){
         // TODO Auto-generated method stub
@@ -911,7 +911,7 @@ public class Learn {
     }
 
     /*
-    保存最底层非叶子节点,useless
+    Save the bottom non-leaf nodes , which is useless
      */
     public void saveTheta(File file) {
         // TODO Auto-generated method stub
@@ -1010,7 +1010,6 @@ public class Learn {
             while (true) {
 
                 synchronized (taskList) {
-                    // 如果仓库存储量不足
                     while (taskList.size() < 4) {
                         try {
                             taskList.wait();
@@ -1081,7 +1080,6 @@ public class Learn {
             while (true) {
 
                 synchronized (taskList) {
-                    // 如果仓库存储量不足
                     while (taskList.size() < 4) {
                         try {
                             taskList.wait();
